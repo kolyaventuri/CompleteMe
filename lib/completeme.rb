@@ -1,7 +1,7 @@
 class CompleteMe
   attr_reader :head
   attr_accessor :count, :dictionary
-  def initialize()
+  def initialize
     @head = nil
     @count = 0
     @dictionary = []

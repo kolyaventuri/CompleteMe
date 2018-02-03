@@ -18,11 +18,10 @@ class CompleteMeTest < Minitest::Test
   def test_populate_accepts_files
     skip
     completion = CompleteMe.new
-    completion.populate(['a','b','c'])
+    completion.populate(['a' ,'b', 'c'])
     assert 'a', dictionary.include?
     assert 'b', dictionary.include?
     assert 'c', dictionary.include?
-
   end
 
   def test_insert_accepts_strings
@@ -43,13 +42,10 @@ class CompleteMeTest < Minitest::Test
   def test_suggest_offers_completed_word_options
     skip
     completion = CompleteMe.new
-
   end
 
   def test_select_creates_substring_word_correlation
     skip
     completion = CompleteMe.new
-
   end
-
 end
