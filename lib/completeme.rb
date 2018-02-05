@@ -13,25 +13,35 @@ class CompleteMe
     end
 
     char = chars_array.shift
-    is_word = chars_array.length.zero?
 
-    store_word = nil
-    store_word = word if is_word
-    
-    new_node = Node.new(char, store_word)
-    current_node.child_nodes[char] = new_node
+    if current_node.child_nodes[char]
+      insert(chars_array, current_node.child_nodes[char], word)
+    else
+      is_word = chars_array.length.zero?
 
-    insert(chars_array, current_node.child_nodes[char], word) if chars_array.length > 0
+      store_word = nil
+      store_word = word if is_word
+
+      @count += 1 if is_word
+
+      new_node = Node.new(char, store_word)
+      current_node.child_nodes[char] = new_node
+
+      insert(chars_array, current_node.child_nodes[char], word) if chars_array.length > 0
+    end
 
     [word]
+
   end
 
-  def suggest(pattern)
-
+  def suggest(pattern, depth=0, list=[], current_node=@head)
+    
   end
 
   def populate(words)
-
+    words.each do |word|
+      insert(word)
+    end
   end
 
 end

@@ -18,18 +18,18 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_insert_accepts_strings
+    skip
     completion = CompleteMe.new
     completion.insert('word')
-    binding.pry;
     assert_equal ['word'], completion.suggest('word')
   end
 
   def test_populate_populates
     completion = CompleteMe.new
-    completion.populate(['a' ,'b', 'c'])
-    assert_equal ['a'], completion.suggest('a')
-    assert_equal ['b'], completion.suggest('a')
-    assert_equal ['c'], completion.suggest('a')
+    completion.populate(['a', 'ab', 'b', 'ba'])
+    assert_equal ['a', 'ab'], completion.suggest('a')
+    assert_equal ['b', 'ba'], completion.suggest('b')
+    assert_equal [], completion.suggest('c')
   end
 
 
