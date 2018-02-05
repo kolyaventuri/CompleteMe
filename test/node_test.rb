@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/node.rb'
-require 'pry'
 
 class NodeTest < Minitest::Test
   def test_node_is_created
@@ -12,7 +11,7 @@ class NodeTest < Minitest::Test
     refute node.child_nodes
 
     assert_equal 0, node.weight
-    
+
     refute node.word
   end
 end

@@ -5,7 +5,6 @@ class CompleteMe
   def initialize
     @head = nil
     @count = 0
-    @dictionary = []
   end
 
   def insert(word)
