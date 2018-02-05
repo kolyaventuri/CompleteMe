@@ -34,8 +34,27 @@ class CompleteMe
 
   end
 
-  def suggest(pattern, depth=0, list=[], current_node=@head)
-    
+  def suggest(pattern, list=[], current_node=@head)
+
+    unless pattern.instance_of? Array
+      return suggest(pattern.chars, list, current_node)
+    end
+
+    char = pattern.shift
+
+    if current_node.word
+      list.push(current_node.word)
+    end
+
+    if current_node.child_nodes[char]
+      suggest(pattern, list, current_node.child_nodes[char])
+    elsif char.nil?
+      current_node.child_nodes.values.each do |node|
+        suggest(pattern, list, node)
+      end
+    end
+
+    list
   end
 
   def populate(words)

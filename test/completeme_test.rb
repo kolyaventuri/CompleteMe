@@ -18,7 +18,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_insert_accepts_strings
-    skip
     completion = CompleteMe.new
     completion.insert('word')
     assert_equal ['word'], completion.suggest('word')
