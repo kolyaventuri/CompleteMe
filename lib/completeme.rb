@@ -57,8 +57,11 @@ class CompleteMe
     list
   end
 
-  def populate(words)
+  def populate(dictionary)
+    words = dictionary.split("\n")
     words.each do |word|
+      word = word.strip
+      continue if word.length.zero?
       insert(word)
     end
   end

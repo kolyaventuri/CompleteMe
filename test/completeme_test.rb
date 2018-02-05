@@ -25,7 +25,9 @@ class CompleteMeTest < Minitest::Test
 
   def test_populate_populates
     completion = CompleteMe.new
-    completion.populate(['a', 'ab', 'b', 'ba'])
+    dictionary = File.read('./data/words.sample.txt')
+    
+    completion.populate(dictionary)
     assert_equal ['a', 'ab'], completion.suggest('a')
     assert_equal ['b', 'ba'], completion.suggest('b')
     assert_equal [], completion.suggest('c')
