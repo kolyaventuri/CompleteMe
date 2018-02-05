@@ -5,7 +5,7 @@ class Node
   def initialize(character, word = nil)
     @character = character
     @word = word
-    @child_nodes = Hash.new
-    @weight = Hash.new
+    @child_nodes = {}
+    @weight = {}
   end
 end
