@@ -26,7 +26,7 @@ class CompleteMeTest < Minitest::Test
   def test_populate_populates
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sample.txt')
-    
+
     completion.populate(dictionary)
     assert_equal ['a', 'ab'], completion.suggest('a')
     assert_equal ['b', 'ba'], completion.suggest('b')
@@ -39,11 +39,6 @@ class CompleteMeTest < Minitest::Test
     assert_equal 0, completion.count
     completion.insert('word')
     assert_equal 1, completion.count
-  end
-
-  def test_suggest_offers_completed_word_options
-    skip
-    completion = CompleteMe.new
   end
 
   def test_select_creates_substring_word_correlation
