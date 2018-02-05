@@ -6,8 +6,8 @@ require 'pry'
 class CompleteMeTest < Minitest::Test
 
   def test_head_node_starts_empty
-  completion = CompleteMe.new
-  refute completion.head
+    completion = CompleteMe.new
+    refute completion.head
   end
 
   def test_count_starts_empty
@@ -15,28 +15,26 @@ class CompleteMeTest < Minitest::Test
     assert_equal 0, completion.count
   end
 
-  def test_populate_accepts_files
-    skip
+  def test_insert_accepts_strings
+    completion = CompleteMe.new
+    completion.insert('word')
+    assert_equal ['word'], completion.suggest('word')
+  end
+
+  def test_populate_populates
     completion = CompleteMe.new
     completion.populate(['a' ,'b', 'c'])
-    assert 'a', dictionary.include?
-    assert 'b', dictionary.include?
-    assert 'c', dictionary.include?
+    assert_equal ['a'], completion.suggest('a')
+    assert_equal ['b'], completion.suggest('a')
+    assert_equal ['c'], completion.suggest('a')
   end
 
-  def test_insert_accepts_strings
-    skip
-    completion = CompleteMe.new
-    completion.insert('word')
-    assert 'word', dictionary.include?
-  end
 
   def test_insert_increases_count
-    skip
     completion = CompleteMe.new
-    assert_equal 0, dictionary.length
+    assert_equal 0, completion.length
     completion.insert('word')
-    assert_equal 1, dictionary.length
+    assert_equal 1, completion.length
   end
 
   def test_suggest_offers_completed_word_options
