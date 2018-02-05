@@ -32,9 +32,9 @@ class CompleteMeTest < Minitest::Test
 
   def test_insert_increases_count
     completion = CompleteMe.new
-    assert_equal 0, completion.length
+    assert_equal 0, completion.count
     completion.insert('word')
-    assert_equal 1, completion.length
+    assert_equal 1, completion.count
   end
 
   def test_suggest_offers_completed_word_options
