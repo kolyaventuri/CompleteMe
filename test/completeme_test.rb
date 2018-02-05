@@ -1,13 +1,15 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/completeme.rb'
+require './lib/node.rb'
 require 'pry'
 
 class CompleteMeTest < Minitest::Test
 
   def test_head_node_starts_empty
     completion = CompleteMe.new
-    refute completion.head
+    assert_instance_of Node, completion.head
+    assert_nil completion.head.character
   end
 
   def test_count_starts_empty
@@ -18,6 +20,7 @@ class CompleteMeTest < Minitest::Test
   def test_insert_accepts_strings
     completion = CompleteMe.new
     completion.insert('word')
+    binding.pry;
     assert_equal ['word'], completion.suggest('word')
   end
 
