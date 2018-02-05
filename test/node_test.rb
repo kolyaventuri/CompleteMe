@@ -8,9 +8,9 @@ class NodeTest < Minitest::Test
 
     assert_equal 'a', node.character
 
-    refute node.child_nodes
+    assert_equal Hash.new, node.child_nodes
 
-    assert_equal 0, node.weight
+    assert_equal Hash.new, node.weight
 
     refute node.word
   end
