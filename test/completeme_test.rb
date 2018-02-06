@@ -18,7 +18,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_insert_accepts_strings
-    skip
     completion = CompleteMe.new
     completion.insert('word')
     assert_equal ['word'], completion.suggest('word')
@@ -34,7 +33,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggest_works_properly
-    skip
     completion = CompleteMe.new
     dictionary = File.read('./data/words.505.txt')
 
@@ -43,7 +41,6 @@ class CompleteMeTest < Minitest::Test
     completion.suggest('piz')
   end
   def test_insert_increases_count
-    skip
     completion = CompleteMe.new
     assert_equal 0, completion.count
     completion.insert('word')
@@ -51,7 +48,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_select_creates_substring_word_correlation
-    skip
     completion = CompleteMe.new
     dictionary = File.read('./data/words.505.txt')
 
@@ -61,5 +57,20 @@ class CompleteMeTest < Minitest::Test
     results = completion.suggest('piz')
 
     assert_equal 'pizzeria', results[0]
+  end
+
+  def test_deletes_words
+    completion = CompleteMe.new
+    dictionary = File.read('./data/words.sample.txt')
+
+    completion.populate(dictionary)
+
+    assert_equal ['a', 'aardvark'], completion.suggest('a')
+    completion.delete('aardvark')
+    assert_equal ['a'], completion.suggest('a')
+    completion.delete('a')
+    assert_equal [], completion.suggest('a')
+    binding.pry
+    assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest('').sort
   end
 end
