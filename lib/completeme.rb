@@ -37,18 +37,18 @@ class CompleteMe
   def suggest(pattern)
     list = get_suggestions(pattern)
     weights = get_weights(pattern)
-    print weights
 
-    sorted_weight = weights.sort_by { |hash| hash.values }
+    sorted_weight = weights.sort_by { |hash| hash[:weight] }
 
     while !sorted_weight.length.zero?
-      to_add = sorted_weight.shift.keys[0]
+      to_add = sorted_weight.shift[:word]
       if list.include?(to_add)
         list.delete(to_add)
       end
 
       list.unshift(to_add)
     end
+
     list
   end
 
@@ -101,15 +101,31 @@ class CompleteMe
 
   def select(substring, selected_word, current_node = @head)
 
-    # unless selected_word.instance_of? Array
-    #   return select(substring, selected_word.chars, current_node)
-    # end
-    #
-    # if current_node.weights.each {|hash| hash.keys[0].include?(selected_word)}
-    #   hash.values[0] += 1
-    # else
-    #   weights.push({selected_word => 1})
-    # end
+    unless substring.instance_of? Array
+      return select(substring.chars, selected_word, current_node)
+    end
+
+    char = substring.shift
+
+    if current_node.child_nodes[char]
+      select(substring, selected_word, current_node.child_nodes[char])
+    elsif char.nil?
+      index = nil
+      current_node.weights.each_with_index do |weight, current_index|
+        if weight.word == selected_word
+          index = current_index
+          break
+        end
+      end
+
+      if index.nil?
+        current_node.weights.push({word: selected_word, weight: 1})
+      else
+        current_node.weights[index][:weight] += 1
+      end
+
+    end
+
 
 
   end
