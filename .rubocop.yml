@@ -1,2 +1,6 @@
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+AllCops:
+  Exclude:
+    - 'test/complete_me_spec.rb'
