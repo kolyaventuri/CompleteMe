@@ -37,7 +37,6 @@ class CompleteMeTest < Minitest::Test
     dictionary = File.read('./data/words.505.txt')
 
     completion.populate(dictionary)
-    # binding.pry
     completion.suggest('piz')
   end
   def test_insert_increases_count
@@ -70,7 +69,6 @@ class CompleteMeTest < Minitest::Test
     assert_equal ['a'], completion.suggest('a')
     completion.delete('a')
     assert_equal [], completion.suggest('a')
-    binding.pry
     assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest('').sort
   end
 end

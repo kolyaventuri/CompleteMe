@@ -132,7 +132,7 @@ class CompleteMe
 
   def delete(pattern, current_node = @head, word = nil)
     unless pattern.instance_of? Array
-      return delete(pattern.chars, current_node, word=pattern)
+      return delete(pattern.chars, current_node, word = pattern)
     end
 
     char = pattern.shift
@@ -145,13 +145,12 @@ class CompleteMe
     if current_node.child_nodes[char]
       delete(pattern, current_node.child_nodes[char], word)
     elsif char.nil?
-      current_node.child_nodes.keys.each do |key|
+      current_node.child_nodes.each_key do |key|
         delete(pattern, current_node.child_nodes[key], word)
-        if current_node.child_nodes[key].empty?
+        if current_node.child_nodes[key].child_nodes.empty?
           current_node.child_nodes[key] = nil
         end
       end
     end
-
   end
 end
