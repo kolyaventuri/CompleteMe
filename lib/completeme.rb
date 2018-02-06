@@ -34,10 +34,27 @@ class CompleteMe
 
   end
 
-  def suggest(pattern, list=[], current_node=@head)
+  def suggest(pattern)
+    list = get_suggestions(pattern)
+    weights = get_weights(pattern)
+    print weights
 
+    sorted_weight = weights.sort_by { |hash| hash.values }
+
+    while !sorted_weight.length.zero?
+      to_add = sorted_weight.shift.keys[0]
+      if list.include?(to_add)
+        list.delete(to_add)
+      end
+
+      list.unshift(to_add)
+    end
+    list
+  end
+
+  def get_suggestions(pattern, list=[], current_node=@head)
     unless pattern.instance_of? Array
-      return suggest(pattern.chars, list, current_node)
+      return get_suggestions(pattern.chars, list, current_node)
     end
 
     char = pattern.shift
@@ -47,14 +64,30 @@ class CompleteMe
     end
 
     if current_node.child_nodes[char]
-      suggest(pattern, list, current_node.child_nodes[char])
+      get_suggestions(pattern, list, current_node.child_nodes[char])
     elsif char.nil?
       current_node.child_nodes.values.each do |node|
-        suggest(pattern, list, node)
+        get_suggestions(pattern, list, node)
       end
     end
 
     list
+  end
+
+  def get_weights(pattern, current_node = @head)
+    unless pattern.instance_of? Array
+      return get_weights(pattern.chars, current_node)
+    end
+
+    char = pattern.shift
+
+    if current_node.child_nodes[char]
+      get_weights(pattern, current_node.child_nodes[char])
+    elsif char.nil?
+      current_node.weights
+    else
+      {}
+    end
   end
 
   def populate(dictionary)
@@ -64,6 +97,21 @@ class CompleteMe
       continue if word.length.zero?
       insert(word)
     end
+  end
+
+  def select(substring, selected_word, current_node = @head)
+
+    # unless selected_word.instance_of? Array
+    #   return select(substring, selected_word.chars, current_node)
+    # end
+    #
+    # if current_node.weights.each {|hash| hash.keys[0].include?(selected_word)}
+    #   hash.values[0] += 1
+    # else
+    #   weights.push({selected_word => 1})
+    # end
+
+
   end
 
 end
