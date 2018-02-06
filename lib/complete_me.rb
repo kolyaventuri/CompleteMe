@@ -1,3 +1,6 @@
+require_relative 'node'
+require 'pry'
+
 class CompleteMe
   attr_reader :head,
               :count
@@ -23,11 +26,15 @@ class CompleteMe
       store_word = word if is_word
 
       @count += 1 if is_word
+      if char.nil?
+        current_node.word = store_word
+      else
+        new_node = Node.new(char, store_word)
+        current_node.child_nodes[char] = new_node
 
-      new_node = Node.new(char, store_word)
-      current_node.child_nodes[char] = new_node
+        insert(chars_array, current_node.child_nodes[char], word) if chars_array.length > 0
+      end
 
-      insert(chars_array, current_node.child_nodes[char], word) if chars_array.length > 0
     end
 
     [word]
@@ -57,7 +64,7 @@ class CompleteMe
 
     char = pattern.shift
 
-    if current_node.word
+    if current_node.word && char.nil?
       list.push(current_node.word)
     end
 
