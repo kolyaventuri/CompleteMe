@@ -48,15 +48,14 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_select_creates_substring_word_correlation
-
     completion = CompleteMe.new
     dictionary = File.read('./data/words.505.txt')
 
     completion.populate(dictionary)
-    completion.select("piz", "pizzeria")
+    completion.select('piz', 'pizzeria')
 
     results = completion.suggest('piz')
 
-    assert_equal "pizzeria", results[0]
+    assert_equal 'pizzeria', results[0]
   end
 end

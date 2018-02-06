@@ -10,7 +10,7 @@ class NodeTest < Minitest::Test
 
     assert_equal Hash.new, node.child_nodes
 
-    assert_equal Array.new, node.weights
+    assert_equal [], node.weights
 
     refute node.word
   end

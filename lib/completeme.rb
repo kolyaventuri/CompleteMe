@@ -40,11 +40,9 @@ class CompleteMe
 
     sorted_weight = weights.sort_by { |hash| hash[:weight] }
 
-    while !sorted_weight.length.zero?
+    until sorted_weight.length.zero?
       to_add = sorted_weight.shift[:word]
-      if list.include?(to_add)
-        list.delete(to_add)
-      end
+      list.delete(to_add) if list.include?(to_add)
 
       list.unshift(to_add)
     end
@@ -52,7 +50,7 @@ class CompleteMe
     list
   end
 
-  def get_suggestions(pattern, list=[], current_node=@head)
+  def get_suggestions(pattern, list = [], current_node = @head)
     unless pattern.instance_of? Array
       return get_suggestions(pattern.chars, list, current_node)
     end
@@ -100,7 +98,6 @@ class CompleteMe
   end
 
   def select(substring, selected_word, current_node = @head)
-
     unless substring.instance_of? Array
       return select(substring.chars, selected_word, current_node)
     end
@@ -119,15 +116,10 @@ class CompleteMe
       end
 
       if index.nil?
-        current_node.weights.push({word: selected_word, weight: 1})
+        current_node.weights.push(word: selected_word, weight: 1)
       else
         current_node.weights[index][:weight] += 1
       end
-
     end
-
-
-
   end
-
 end
