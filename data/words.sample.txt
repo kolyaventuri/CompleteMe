@@ -1,4 +1,2 @@
+aardvark
 a
-ab
-b
-ba
