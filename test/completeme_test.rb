@@ -26,14 +26,20 @@ class CompleteMeTest < Minitest::Test
   def test_populate_populates
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sample.txt')
-
     completion.populate(dictionary)
     assert_equal ['a', 'ab'], completion.suggest('a')
     assert_equal ['b', 'ba'], completion.suggest('b')
     assert_equal [], completion.suggest('c')
   end
 
+  def test_suggest_works_properly
+    completion = CompleteMe.new
+    dictionary = File.read('./data/words.505.txt')
 
+    completion.populate(dictionary)
+    # binding.pry
+    completion.suggest('piz')
+  end
   def test_insert_increases_count
     completion = CompleteMe.new
     assert_equal 0, completion.count
@@ -42,7 +48,14 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_select_creates_substring_word_correlation
-    skip
     completion = CompleteMe.new
+    dictionary = File.read('./data/words.505.txt')
+
+    completion.populate(dictionary)
+    completion.select('piz', 'pizzeria')
+
+    results = completion.suggest('piz')
+
+    assert_equal 'pizzeria', results[0]
   end
 end
