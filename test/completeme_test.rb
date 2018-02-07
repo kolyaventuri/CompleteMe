@@ -36,7 +36,7 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.505.txt')
 
-    completion.populate(dictionary)
+    completion.populate(dictionary) 
     completion.suggest('piz')
   end
 
