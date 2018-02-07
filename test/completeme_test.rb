@@ -27,8 +27,8 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sample.txt')
     completion.populate(dictionary)
-    assert_equal ['a', 'aardvark'], completion.suggest('a')
-    assert_equal ['pizza'], completion.suggest('p')
+    assert_equal ['a', 'aardvark', 'pizza'], completion.suggest('a').sort
+    assert_equal ['pizza', 'xylophones'], completion.suggest('p').sort
     assert_equal [], completion.suggest('c')
   end
 
@@ -65,11 +65,11 @@ class CompleteMeTest < Minitest::Test
 
     completion.populate(dictionary)
 
-    assert_equal ['a', 'aardvark'], completion.suggest('a')
+    assert_equal ['a', 'aardvark', 'pizza'], completion.suggest('a').sort
     completion.delete('aardvark')
-    assert_equal ['a'], completion.suggest('a')
+    assert_equal ['a', 'pizza'], completion.suggest('a').sort
     completion.delete('a')
-    assert_equal [], completion.suggest('a')
+    assert_equal ['pizza'], completion.suggest('a').sort
     assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest('').sort
   end
 
@@ -97,5 +97,15 @@ class CompleteMeTest < Minitest::Test
     assert_equal expected_addr1, completion.suggest('4950 N D').sort
     assert_equal expected_addr2, completion.suggest('1922 S Mi')
     assert_equal [], completion.suggest('666 H')
+  end
+
+  def test_finds_substrings
+    completion = CompleteMe.new
+    dictionary = File.read('./data/words.sub.txt')
+
+    expected = ['communicate', 'complete', 'incomplete']
+
+    completion.populate(dictionary)
+    assert_equal expected, completion.suggest('com').sort
   end
 end
