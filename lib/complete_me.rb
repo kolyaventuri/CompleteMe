@@ -58,11 +58,6 @@ class CompleteMe
   end
 
   def get_suggestions(pattern, list = [], current_node = @head, checked = '')
-    # unless pattern.instance_of? Array
-    #   return get_suggestions(pattern.chars, list, current_node, checked)
-    # end
-
-    #char = pattern.shift
     checked += current_node.character unless current_node.character.nil?
 
     if current_node.word && checked.include?(pattern)

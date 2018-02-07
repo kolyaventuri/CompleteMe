@@ -27,8 +27,8 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sample.txt')
     completion.populate(dictionary)
-    assert_equal ['a', 'aardvark', 'pizza'], completion.suggest('a').sort
-    assert_equal ['pizza', 'xylophones'], completion.suggest('p').sort
+    assert_equal %w[a aardvark pizza], completion.suggest('a').sort
+    assert_equal %w[pizza xylophones], completion.suggest('p').sort
     assert_equal [], completion.suggest('c')
   end
 
@@ -65,12 +65,12 @@ class CompleteMeTest < Minitest::Test
 
     completion.populate(dictionary)
 
-    assert_equal ['a', 'aardvark', 'pizza'], completion.suggest('a').sort
+    assert_equal %w[a aardvark pizza], completion.suggest('a').sort
     completion.delete('aardvark')
-    assert_equal ['a', 'pizza'], completion.suggest('a').sort
+    assert_equal %w[a pizza], completion.suggest('a').sort
     completion.delete('a')
-    assert_equal ['pizza'], completion.suggest('a').sort
-    assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest('').sort
+    assert_equal %w[pizza], completion.suggest('a').sort
+    assert_equal %w[pizza xylophones zombies], completion.suggest('').sort
   end
 
   def test_loads_addresses
@@ -103,7 +103,7 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sub.txt')
 
-    expected = ['communicate', 'complete', 'incomplete']
+    expected = %w[communicate complete incomplete]
 
     completion.populate(dictionary)
     assert_equal expected, completion.suggest('com').sort
