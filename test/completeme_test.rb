@@ -74,8 +74,12 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_loads_addresses
-    expected_addr_1 = ["4950 N Dahlia St", "4950 N Decatur St", "4950 N Dillon St", "4950 N Durham Ct"]
-    expected_addr_2 = ["1922 S Michigan Way"]
+    expected_addr1 = ['4950 N Dahlia St',
+                      '4950 N Decatur St',
+                      '4950 N Dillon St',
+                      '4950 N Durham Ct']
+
+    expected_addr2 = ['1922 S Michigan Way']
 
     completion = CompleteMe.new
     addresses = File.read('./data/addresses.csv')
@@ -90,8 +94,8 @@ class CompleteMeTest < Minitest::Test
     final_addr_list = final_addr_array.join("\n")
 
     completion.populate(final_addr_list)
-    assert_equal expected_addr_1, completion.suggest('4950 N D').sort
-    assert_equal expected_addr_2, completion.suggest('1922 S Mi')
+    assert_equal expected_addr1, completion.suggest('4950 N D').sort
+    assert_equal expected_addr2, completion.suggest('1922 S Mi')
     assert_equal [], completion.suggest('666 H')
   end
 end
