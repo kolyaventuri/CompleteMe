@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require_relative 'test_helper'
 require './lib/complete_me.rb'
 require './lib/node.rb'
 require 'pry'
@@ -36,7 +35,7 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.505.txt')
 
-    completion.populate(dictionary) 
+    completion.populate(dictionary)
     completion.suggest('piz')
   end
 
