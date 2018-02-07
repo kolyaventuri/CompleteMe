@@ -39,6 +39,7 @@ class CompleteMeTest < Minitest::Test
     completion.populate(dictionary)
     completion.suggest('piz')
   end
+
   def test_insert_increases_count
     completion = CompleteMe.new
     assert_equal 0, completion.count
@@ -70,5 +71,31 @@ class CompleteMeTest < Minitest::Test
     completion.delete('a')
     assert_equal [], completion.suggest('a')
     assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest('').sort
+  end
+
+  def test_loads_addresses
+    expected_addr1 = ['4950 N Dahlia St',
+                      '4950 N Decatur St',
+                      '4950 N Dillon St',
+                      '4950 N Durham Ct']
+
+    expected_addr2 = ['1922 S Michigan Way']
+
+    completion = CompleteMe.new
+    addresses = File.read('./data/addresses.csv')
+
+    addresses = addresses.split("\n")
+    addresses.shift
+
+    final_addr_array = addresses.map do |addr|
+      addr.split(',').last
+    end
+
+    final_addr_list = final_addr_array.join("\n")
+
+    completion.populate(final_addr_list)
+    assert_equal expected_addr1, completion.suggest('4950 N D').sort
+    assert_equal expected_addr2, completion.suggest('1922 S Mi')
+    assert_equal [], completion.suggest('666 H')
   end
 end
