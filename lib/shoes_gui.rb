@@ -9,7 +9,8 @@ Shoes.app :title => "Autocompleteratorizer" do
   title "     Free-style Rap Assistant"
 
   stack(margin: 12) do
-    
+    @clear_button = button "CLEAR!"
+
     para "First, add a dictionary! (You can add your own rap dictionary)"
     flow do
       @new_dictionary = edit_line(@dictionary)
@@ -37,7 +38,8 @@ Shoes.app :title => "Autocompleteratorizer" do
       @selected_word = edit_line
       @select_button = button("Select that word")
       @select_button.click do
-        @selection.replace(@completion.select(@selected_word.text, @substring.text).join(', '))
+        @completion.select(@substring.text, @selected_word.text)
+        @selection.replace(@selected_word.text)
       end
     end
       @selection = para ''
@@ -57,10 +59,17 @@ Shoes.app :title => "Autocompleteratorizer" do
       @word_to_delete = edit_line
       @delete_button = button("Delete that word")
       @delete_button.click do
-        @deleted_word.replace(@completion.insert(@word_to_delete.text).join(', '))
+        @completion.delete(@word_to_delete.text)
+        @deleted_word.replace('That word is gone, baby!')
       end
     end
     @deleted_word = para ''
-
+    @clear_button.click do
+      @dictionary_added = para ''
+      @completed_words = para ''
+      @selection = para ''
+      @insertion= para ''
+      @deleted_word = para ''
+    end
   end
 end
