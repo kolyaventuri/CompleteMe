@@ -57,23 +57,15 @@ class CompleteMe
     list
   end
 
-  def get_suggestions(pattern, list = [], current_node = @head)
-    unless pattern.instance_of? Array
-      return get_suggestions(pattern.chars, list, current_node)
-    end
+  def get_suggestions(pattern, list = [], current_node = @head, checked = '')
+    checked += current_node.character unless current_node.character.nil?
 
-    char = pattern.shift
-
-    if current_node.word && char.nil?
+    if current_node.word && checked.include?(pattern)
       list.push(current_node.word)
     end
 
-    if current_node.child_nodes[char]
-      get_suggestions(pattern, list, current_node.child_nodes[char])
-    elsif char.nil?
-      current_node.child_nodes.values.each do |node|
-        get_suggestions(pattern, list, node)
-      end
+    current_node.child_nodes.each_value do |node|
+      get_suggestions(pattern, list, node, checked)
     end
 
     list
