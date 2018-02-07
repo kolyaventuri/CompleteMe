@@ -26,9 +26,15 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read('./data/words.sample.txt')
     completion.populate(dictionary)
-    assert_equal %w[a aardvark pizza], completion.suggest('a').sort
-    assert_equal %w[pizza xylophones], completion.suggest('p').sort
+    assert_equal %w[a aardvark pizza], completion.suggest_substr('a').sort
+    assert_equal %w[pizza xylophones], completion.suggest_substr('p').sort
+    assert_equal [], completion.suggest_substr('c')
+
+    assert_equal ['a', 'aardvark'], completion.suggest('a')
+    assert_equal ['pizza'], completion.suggest('p')
     assert_equal [], completion.suggest('c')
+
+
   end
 
   def test_suggest_works_properly
@@ -64,12 +70,16 @@ class CompleteMeTest < Minitest::Test
 
     completion.populate(dictionary)
 
-    assert_equal %w[a aardvark pizza], completion.suggest('a').sort
+    assert_equal %w[a aardvark pizza], completion.suggest_substr('a').sort
+    assert_equal ['a', 'aardvark'], completion.suggest('a')
     completion.delete('aardvark')
-    assert_equal %w[a pizza], completion.suggest('a').sort
+    assert_equal %w[a pizza], completion.suggest_substr('a').sort
+    assert_equal ['a'], completion.suggest('a')
     completion.delete('a')
-    assert_equal %w[pizza], completion.suggest('a').sort
-    assert_equal %w[pizza xylophones zombies], completion.suggest('').sort
+    assert_equal %w[pizza], completion.suggest_substr('a').sort
+    assert_equal %w[pizza xylophones zombies], completion.suggest_substr('').sort
+    assert_equal [], completion.suggest('a')
+    assert_equal ['pizza', 'xylophones', 'zombies'], completion.suggest_substr('').sort
   end
 
   def test_loads_addresses
@@ -105,6 +115,6 @@ class CompleteMeTest < Minitest::Test
     expected = %w[communicate complete incomplete]
 
     completion.populate(dictionary)
-    assert_equal expected, completion.suggest('com').sort
+    assert_equal expected, completion.suggest_substr('com').sort
   end
 end

@@ -57,7 +57,46 @@ class CompleteMe
     list
   end
 
-  def get_suggestions(pattern, list = [], current_node = @head, checked = '')
+  def suggest_substr(pattern)
+    list = get_suggestions_substr(pattern)
+    weights = get_weights(pattern)
+
+    sorted_weight = weights.sort_by { |hash| hash[:weight] }
+
+    until sorted_weight.length.zero?
+      to_add = sorted_weight.shift[:word]
+      list.delete(to_add) if list.include?(to_add)
+
+      list.unshift(to_add)
+    end
+
+    list
+  end
+
+  def get_suggestions(pattern, list = [], current_node = @head)
+
+    unless pattern.instance_of? Array
+      return get_suggestions(pattern.chars, list, current_node)
+    end
+
+    char = pattern.shift
+
+    if current_node.word && char.nil?
+      list.push(current_node.word)
+    end
+
+    if current_node.child_nodes[char]
+      get_suggestions(pattern, list, current_node.child_nodes[char])
+    elsif char.nil?
+      current_node.child_nodes.values.each do |node|
+        get_suggestions(pattern, list, node)
+      end
+    end
+
+    list
+  end
+
+  def get_suggestions_substr(pattern, list = [], current_node = @head, checked = '')
     checked += current_node.character unless current_node.character.nil?
 
     if current_node.word && checked.include?(pattern)
@@ -65,7 +104,7 @@ class CompleteMe
     end
 
     current_node.child_nodes.each_value do |node|
-      get_suggestions(pattern, list, node, checked)
+      get_suggestions_substr(pattern, list, node, checked)
     end
 
     list
